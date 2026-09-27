@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.maduhansa.wellbeingtracker.ui.theme.WellbeingTrackerTheme
-
+import com.maduhansa.wellbeingtracker.checkin.MoodCheckInScreen
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,10 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             WellbeingTrackerTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Maduhansa",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    MoodCheckInScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
