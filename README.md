@@ -20,3 +20,14 @@ data (with consent), to explore how digital habits relate to wellbeing.
 
 ## Tech stack
 Kotlin, Jetpack Compose, Room (SQLite)
+
+## Screen-time measurement
+- Source: Android `UsageStatsManager` app open/close events (requires user-granted Usage Access).
+- Stored: minutes per **app category** per day. Individual app names are not saved.
+- The last 7 days are re-read every time the app opens, so days are filled in even if the app was not opened.
+
+### Known limitations
+- Android keeps detailed usage events for a limited time only; the app must be opened at least every few days.
+- Many apps don't declare a category; common apps are labelled manually, others fall into "other".
+- Totals differ slightly from Digital Wellbeing because of how sessions are counted.
+- Slider default values (4/7) may bias check-in responses (anchoring effect).
