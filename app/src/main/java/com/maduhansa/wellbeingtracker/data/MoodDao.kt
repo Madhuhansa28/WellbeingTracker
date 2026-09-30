@@ -18,4 +18,16 @@ interface MoodDao {
     // updates automatically whenever a new check-in is saved.
     @Query("SELECT * FROM mood_checkins ORDER BY timestamp DESC")
     fun getAll(): Flow<List<MoodCheckIn>>
+
+    // All check-ins at once, oldest first (for export).
+    @Query("SELECT * FROM mood_checkins ORDER BY timestamp ASC")
+    suspend fun getAllOnce(): List<MoodCheckIn>
+
+    // Number of check-ins (updates live).
+    @Query("SELECT COUNT(*) FROM mood_checkins")
+    fun count(): Flow<Int>
+
+    // Permanently delete all check-ins.
+    @Query("DELETE FROM mood_checkins")
+    suspend fun deleteAll()
 }

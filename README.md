@@ -31,3 +31,14 @@ Kotlin, Jetpack Compose, Room (SQLite)
 - Many apps don't declare a category; common apps are labelled manually, others fall into "other".
 - Totals differ slightly from Digital Wellbeing because of how sessions are counted.
 - Slider default values (4/7) may bias check-in responses (anchoring effect).
+
+## Data export & deletion
+- **Export:** one `.zip` file with `mood_checkins.csv`, `daily_usage.csv` and
+  `export_info.txt` (export time, time zone, row counts).
+- **Pseudonymised:** rows are labelled with a random participant ID (e.g. `P-3F9A1C2B`),
+  never a name or phone number.
+- **Notes excluded by default:** free-text notes may contain personal details,
+  so the user must choose to include them.
+- **Right to delete:** "Delete all my data" permanently removes all records and
+  issues a new participant ID, so earlier exports cannot be linked to new data.
+- Real exported data is never committed to this repository (see `.gitignore`).

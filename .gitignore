@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+# Real participant data - never commit
+*.zip
+data_exports/

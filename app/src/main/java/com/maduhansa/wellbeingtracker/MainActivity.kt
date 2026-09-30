@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import com.maduhansa.wellbeingtracker.checkin.MoodCheckInScreen
 import com.maduhansa.wellbeingtracker.ui.theme.WellbeingTrackerTheme
 import com.maduhansa.wellbeingtracker.usage.UsageScreen
+import com.maduhansa.wellbeingtracker.mydata.MyDataScreen
 
 class MainActivity : ComponentActivity() {
 
@@ -45,7 +46,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen(resumeCount: Int, modifier: Modifier = Modifier) {
     var selectedTab by rememberSaveable { mutableIntStateOf(0) }
-    val tabs = listOf("Check-in", "Screen time")
+    val tabs = listOf("Check-in", "Screen time", "My data")
 
     Column(modifier = modifier.fillMaxSize()) {
         PrimaryTabRow(selectedTabIndex = selectedTab) {
@@ -60,6 +61,7 @@ fun MainScreen(resumeCount: Int, modifier: Modifier = Modifier) {
         when (selectedTab) {
             0 -> MoodCheckInScreen()
             1 -> UsageScreen(resumeCount = resumeCount)
+            2 -> MyDataScreen()
         }
     }
 }

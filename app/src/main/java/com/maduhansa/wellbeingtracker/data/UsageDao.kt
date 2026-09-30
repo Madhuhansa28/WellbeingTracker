@@ -21,4 +21,16 @@ interface UsageDao {
     // Total minutes per day for the last 7 days that have data.
     @Query("SELECT date, SUM(minutes) AS totalMinutes FROM daily_usage GROUP BY date ORDER BY date DESC LIMIT 7")
     fun getDailyTotals(): Flow<List<DayTotal>>
+
+    // All usage rows at once, sorted (for export).
+    @Query("SELECT * FROM daily_usage ORDER BY date ASC, category ASC")
+    suspend fun getAllOnce(): List<DailyUsage>
+
+    // Number of different days that have screen-time data (updates live).
+    @Query("SELECT COUNT(DISTINCT date) FROM daily_usage")
+    fun countDays(): Flow<Int>
+
+    // Permanently delete all screen-time data.
+    @Query("DELETE FROM daily_usage")
+    suspend fun deleteAll()
 }
