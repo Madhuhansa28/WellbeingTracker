@@ -42,3 +42,8 @@ Kotlin, Jetpack Compose, Room (SQLite)
 - **Right to delete:** "Delete all my data" permanently removes all records and
   issues a new participant ID, so earlier exports cannot be linked to new data.
 - Real exported data is never committed to this repository (see `.gitignore`).
+
+### Pilot
+The app has been used to collect ~1 week of real data (n = 1), which was
+exported successfully as CSV. Running the analysis pipeline on real
+participant data is planned as future work.
