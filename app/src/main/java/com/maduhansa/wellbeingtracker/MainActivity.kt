@@ -4,17 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import com.maduhansa.wellbeingtracker.checkin.MoodCheckInScreen
+import com.maduhansa.wellbeingtracker.mydata.MyDataScreen
 import com.maduhansa.wellbeingtracker.ui.theme.WellbeingTrackerTheme
 import com.maduhansa.wellbeingtracker.usage.UsageScreen
-import com.maduhansa.wellbeingtracker.mydata.MyDataScreen
 
 class MainActivity : ComponentActivity() {
 
@@ -26,12 +25,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             WellbeingTrackerTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen(
-                        resumeCount = resumeCount,
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                MainScreen(resumeCount = resumeCount)
             }
         }
     }
@@ -42,26 +36,50 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+// One entry in the bottom navigation bar.
+private data class NavItem(val label: String, val icon: Int)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(resumeCount: Int, modifier: Modifier = Modifier) {
+fun MainScreen(resumeCount: Int) {
     var selectedTab by rememberSaveable { mutableIntStateOf(0) }
-    val tabs = listOf("Check-in", "Screen time", "My data")
+    val navItems = listOf(
+        NavItem("Check-in", R.drawable.ic_tab_checkin),
+        NavItem("Screen time", R.drawable.ic_tab_screen_time),
+        NavItem("My data", R.drawable.ic_tab_my_data)
+    )
 
-    Column(modifier = modifier.fillMaxSize()) {
-        PrimaryTabRow(selectedTabIndex = selectedTab) {
-            tabs.forEachIndexed { index, title ->
-                Tab(
-                    selected = selectedTab == index,
-                    onClick = { selectedTab = index },
-                    text = { Text(title) }
+    Scaffold(
+        // Top bar with the app name
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { Text("Wellbeing Tracker") },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
+            )
+        },
+        // Bottom navigation with icons + labels
+        bottomBar = {
+            NavigationBar {
+                navItems.forEachIndexed { index, item ->
+                    NavigationBarItem(
+                        selected = selectedTab == index,
+                        onClick = { selectedTab = index },
+                        icon = { Icon(painterResource(item.icon), contentDescription = null) },
+                        label = { Text(item.label) }
+                    )
+                }
             }
         }
+    ) { innerPadding ->
+        // innerPadding keeps content clear of the top and bottom bars
+        val contentModifier = Modifier.padding(innerPadding)
         when (selectedTab) {
-            0 -> MoodCheckInScreen()
-            1 -> UsageScreen(resumeCount = resumeCount)
-            2 -> MyDataScreen()
+            0 -> MoodCheckInScreen(modifier = contentModifier)
+            1 -> UsageScreen(resumeCount = resumeCount, modifier = contentModifier)
+            2 -> MyDataScreen(modifier = contentModifier)
         }
     }
 }

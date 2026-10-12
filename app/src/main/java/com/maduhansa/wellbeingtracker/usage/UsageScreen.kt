@@ -65,7 +65,7 @@ fun ConsentScreen(onGrant: () -> Unit, modifier: Modifier = Modifier) {
             Text("Grant usage access")
         }
         Text(
-            "In Settings, find WellbeingTracker, turn the switch on, then come back.",
+            "In Settings, find Wellbeing Tracker, turn the switch on, then come back.",
             style = MaterialTheme.typography.bodySmall
         )
     }
